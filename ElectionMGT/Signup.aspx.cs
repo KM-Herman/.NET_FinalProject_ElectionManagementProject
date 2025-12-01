@@ -32,7 +32,6 @@ namespace ElectionMGT
                 return;
             }
 
-            // Hash and salt password
             string salt = GenerateSalt();
             string hashedPassword = HashPassword(password, salt);
 
