@@ -1,5 +1,8 @@
 ﻿using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
+=======
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -24,6 +27,7 @@ namespace ElectionMGT
                 {
                     string query = @"
                     SELECT 
+<<<<<<< HEAD
                         u.UserId, u.RoleId, u.Password, u.Salt, r.RoleName
                     FROM 
                         Users u
@@ -31,6 +35,13 @@ namespace ElectionMGT
                         [Role] r ON u.RoleId = r.RoleId
                     WHERE 
                         u.Email = @Email";
+=======
+                        UserId, Role, Password, Salt 
+                    FROM 
+                        Users 
+                    WHERE 
+                        Email = @Email";
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
 
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@Email", email);
@@ -39,16 +50,24 @@ namespace ElectionMGT
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     int userId = 0;
+<<<<<<< HEAD
                     int roleId = 0;
                     string roleName = string.Empty;
+=======
+                    string role = string.Empty;
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
                     string storedPassword = string.Empty;
                     string salt = string.Empty;
 
                     if (reader.Read())
                     {
                         userId = Convert.ToInt32(reader["UserId"]);
+<<<<<<< HEAD
                         roleId = Convert.ToInt32(reader["RoleId"]);
                         roleName = reader["RoleName"].ToString(); // Get the Role Name
+=======
+                        role = reader["Role"].ToString();
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
                         storedPassword = reader["Password"].ToString();
                         salt = reader["Salt"].ToString();
                     }
@@ -60,6 +79,7 @@ namespace ElectionMGT
                         string enteredPasswordHash = HashPassword(password, salt);
                         if (storedPassword == enteredPasswordHash)
                         {
+<<<<<<< HEAD
                             LoggingHelper.LogActivity(userId, "LOGIN_SUCCESS", $"User '{email}' logged in successfully.");
                             // Check if the user is a candidate
                             bool isCandidate = CheckIfCandidate(userId, conn);
@@ -70,12 +90,21 @@ namespace ElectionMGT
                             // Successful login
                             Session["UserId"] = userId;
                             Session["Role"] = roleName;
+=======
+                            // Check if the user is a candidate
+                            bool isCandidate = CheckIfCandidate(userId, conn);
+
+                            // Successful login
+                            Session["UserId"] = userId;
+                            Session["Role"] = role;
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
 
                             // Redirect based on role
                             if (isCandidate)
                             {
                                 Response.Redirect("CandidatePage.aspx");
                             }
+<<<<<<< HEAD
                             else if (roleName == "Admin")
                             {
                                 Response.Redirect("AdminPage.aspx");
@@ -89,12 +118,31 @@ namespace ElectionMGT
                         }else{
                             LoggingHelper.LogActivity(userId, "LOGIN_FAILURE", $"Failed login attempt for existing user '{email}'.");
 
+=======
+                            else if (role == "Admin")
+                            {
+                                Response.Redirect("AdminPage.aspx");
+                            }
+                            else if (role == "Voter")
+                            {
+                                Response.Redirect("VoterPage.aspx");
+                            }
+                        }
+                        else
+                        {
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
                             lblErrorMessage.Text = "Invalid email or password.";
                             lblErrorMessage.ForeColor = System.Drawing.Color.Red;
                             lblErrorMessage.Visible = true;
                         }
+<<<<<<< HEAD
                     }else{
                         LoggingHelper.LogActivity(null, "LOGIN_FAILURE", $"Failed login attempt '{email}'not found.");
+=======
+                    }
+                    else
+                    {
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
                         lblErrorMessage.Text = "Invalid email or password.";
                         lblErrorMessage.ForeColor = System.Drawing.Color.Red;
                         lblErrorMessage.Visible = true;
@@ -133,6 +181,7 @@ namespace ElectionMGT
                 return Convert.ToBase64String(bytes);
             }
         }
+<<<<<<< HEAD
 
 
         private List<string> GetUserPermissions(int roleId, SqlConnection conn)
@@ -169,5 +218,7 @@ namespace ElectionMGT
         }
 
 
+=======
+>>>>>>> cbd02db6243c35730a7ac421f0eb3f9d9f3ba35c
     }
 }
