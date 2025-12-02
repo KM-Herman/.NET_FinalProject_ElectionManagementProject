@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminMaster.master.cs" Inherits="ElectionMGT.AdminMaster" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        /* Custom Styles for Sidebar */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40; /* Dark background */
+            padding-top: 56px; /* Space for the top Navbar if needed */
+        }
+
+            .sidebar a {
+                padding: 10px 15px;
+                text-decoration: none;
+                font-size: 18px;
+                color: #f8f9fa; /* Light text */
+                display: block;
+            }
+
+                .sidebar a:hover {
+                    background-color: #495057;
+                    color: #fff;
+                }
+
+        .content {
+            margin-left: 250px; /* Offset the main content area */
+            padding: 20px;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="d-flex">
+            <div class="sidebar">
+                <h3 class="text-white text-center mt-3">E-Vote Admin</h3>
+                <hr class="bg-light" />
+                <a href="AdminPage.aspx">Dashboard</a>
+                <a href="UserManagement.aspx">User Management</a>
+                <a href="ElectionManagement.aspx">Election Management</a>
+                <a href="NotificationManagement.aspx">Notifications</a>
+                <a href="Login.aspx" onclick="sessionStorage.clear();">Logout</a>
+            </div>
+
+            <div class="content flex-grow-1">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

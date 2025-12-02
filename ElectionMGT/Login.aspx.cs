@@ -60,6 +60,7 @@ namespace ElectionMGT
                         string enteredPasswordHash = HashPassword(password, salt);
                         if (storedPassword == enteredPasswordHash)
                         {
+                            LoggingHelper.LogActivity(userId, "LOGIN_SUCCESS", $"User '{email}' logged in successfully.");
                             // Check if the user is a candidate
                             bool isCandidate = CheckIfCandidate(userId, conn);
 
@@ -82,15 +83,18 @@ namespace ElectionMGT
                             else if (roleName == "Voter")
                             {
                                 Response.Redirect("VoterPage.aspx");
-                            }
+                            }else{
+                                Response.Redirect("DefaultPage.aspx");
+                             }
+                        }else{
+                            LoggingHelper.LogActivity(userId, "LOGIN_FAILURE", $"Failed login attempt for existing user '{email}'.");
+
+                            lblErrorMessage.Text = "Invalid email or password.";
+                            lblErrorMessage.ForeColor = System.Drawing.Color.Red;
+                            lblErrorMessage.Visible = true;
                         }
-                        else
-                        {
-                            Response.Redirect("DefaultPage.aspx");
-                        }
-                    }
-                    else
-                    {
+                    }else{
+                        LoggingHelper.LogActivity(null, "LOGIN_FAILURE", $"Failed login attempt '{email}'not found.");
                         lblErrorMessage.Text = "Invalid email or password.";
                         lblErrorMessage.ForeColor = System.Drawing.Color.Red;
                         lblErrorMessage.Visible = true;
@@ -130,6 +134,7 @@ namespace ElectionMGT
             }
         }
 
+
         private List<string> GetUserPermissions(int roleId, SqlConnection conn)
         {
             List<string> permissions = new List<string>();
@@ -162,5 +167,7 @@ namespace ElectionMGT
             }
             return permissions;
         }
+
+
     }
 }
